@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>몽글이와 함께하는 진로 탐색</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/chart.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ===== STAGE TRANSITION OVERLAY ===== -->
+  <div id="stage-overlay" class="stage-overlay hidden">
+    <div class="stage-overlay-content">
+      <div id="stage-overlay-icon" class="stage-overlay-icon"></div>
+      <div id="stage-overlay-name" class="stage-overlay-name"></div>
+      <div id="stage-overlay-desc" class="stage-overlay-desc"></div>
+    </div>
+  </div>
+
+  <!-- ===== LANDING VIEW ===== -->
+  <div id="view-landing">
+    <div class="landing-inner">
+      <img src="character.png" alt="몽글이" class="landing-character">
+      <div class="landing-text">
+        <h1 class="landing-title">몽글이와 함께하는<br>진로 탐색 검사</h1>
+        <p class="landing-subtitle">몇 가지 이야기를 나누면<br>너의 강점과 어울리는 직업을 찾아줄게</p>
+      </div>
+      <button id="btn-start" class="btn-start">검사 시작하기</button>
+      <p class="landing-hint">약 15~20분 소요</p>
+    </div>
+  </div>
+
+  <!-- ===== CHAT VIEW ===== -->
+  <div id="view-chat" class="hidden">
+
+    <!-- Chat Panel -->
+    <div id="chat-panel">
+
+      <!-- Header -->
+      <div id="chat-header">
+        <div class="header-left">
+          <img src="character.png" alt="몽글이" class="header-character">
+          <div class="header-info">
+            <div class="header-name">몽글이</div>
+            <div class="header-status" id="header-status">관심사 탐색</div>
+          </div>
+        </div>
+        <div class="stage-progress">
+          <div class="stage-dot active" data-stage="1" title="관심사 탐색"></div>
+          <div class="stage-connector"></div>
+          <div class="stage-dot" data-stage="2" title="마음 들여다보기"></div>
+          <div class="stage-connector"></div>
+          <div class="stage-dot" data-stage="3" title="진로 탐색"></div>
+          <div class="stage-connector"></div>
+          <div class="stage-dot" data-stage="4" title="결과 분석"></div>
+          <div class="stage-connector"></div>
+          <div class="stage-dot" data-stage="5" title="직업 체험"></div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div id="chat-messages"></div>
+
+      <!-- Typing Indicator -->
+      <div id="typing-indicator" class="hidden">
+        <div class="msg-row bot-row">
+          <img src="character.png" alt="몽글이" class="msg-avatar">
+          <div class="msg-bubble bot-bubble typing-bubble">
+            <span class="typing-dots">
+              <span></span><span></span><span></span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Replies -->
+      <div id="quick-replies" class="hidden"></div>
+
+      <!-- Input Area -->
+      <div id="chat-input-area">
+        <textarea
+          id="chat-input"
+          placeholder="몽글이에게 답장하기..."
+          rows="1"
+          maxlength="500"
+        ></textarea>
+        <button id="btn-send" title="보내기" aria-label="보내기">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+
+      <div id="sidebar-header">
+        <h3 id="sidebar-title">결과 분석</h3>
+      </div>
+
+      <div id="radar-container">
+        <canvas id="radar-chart"></canvas>
+      </div>
+
+      <div id="competency-summary" class="hidden"></div>
+
+      <div id="job-section" class="hidden">
+        <p class="section-label">추천 직업</p>
+        <div id="job-cards"></div>
+      </div>
+
+      <div id="simulation-panel" class="hidden">
+        <button id="btn-back-jobs">← 다른 직업 보기</button>
+        <div id="simulation-job-title"></div>
+        <div id="simulation-content"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

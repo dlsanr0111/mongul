@@ -1,0 +1,233 @@
+/* ========================================
+   BUTTONS
+   ======================================== */
+.btn-start {
+  background: var(--primary);
+  color: var(--text-on-accent);
+  padding: 14px 36px;
+  border-radius: var(--r-full);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+  box-shadow: 0 4px 20px var(--primary-muted);
+}
+
+.btn-start:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(108,99,255,0.25);
+}
+
+.btn-start:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+#btn-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--t), transform var(--t);
+}
+
+#btn-send:hover  { background: var(--primary-hover); }
+#btn-send:active { transform: scale(0.94); }
+#btn-send:disabled {
+  background: var(--border);
+  cursor: not-allowed;
+}
+
+/* ========================================
+   STAGE TRANSITION OVERLAY
+   ======================================== */
+.stage-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeScale 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.stage-overlay-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.stage-overlay-icon {
+  font-size: 3.2rem;
+}
+
+.stage-overlay-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.stage-overlay-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   STAGE DOTS
+   ======================================== */
+.stage-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background var(--t), transform var(--t);
+  flex-shrink: 0;
+}
+
+.stage-dot.active {
+  background: var(--primary);
+  transform: scale(1.25);
+}
+
+.stage-dot.done {
+  background: var(--primary);
+  opacity: 0.35;
+}
+
+.stage-connector {
+  transition: background var(--t);
+}
+
+/* ========================================
+   CHAT MESSAGES
+   ======================================== */
+.msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-sm);
+  max-width: 78%;
+  animation: msgAppear 0.22s ease;
+}
+
+@keyframes msgAppear {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bot-row  { align-self: flex-start; }
+.user-row {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.msg-avatar {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--primary-light);
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.msg-bubble {
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.bot-bubble {
+  background: var(--surface-2);
+  border-bottom-left-radius: 3px;
+  color: var(--text);
+}
+
+.user-bubble {
+  background: var(--primary);
+  color: white;
+  border-bottom-right-radius: 3px;
+}
+
+/* error */
+.error-msg {
+  align-self: center;
+  font-size: 0.83rem;
+  color: #C0392B;
+  background: #FDF0EE;
+  border-radius: var(--r-sm);
+  padding: 7px 14px;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* ========================================
+   TYPING INDICATOR
+   ======================================== */
+.typing-bubble {
+  padding: 12px 16px !important;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.typing-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: typingPulse 1.3s ease infinite;
+}
+
+.typing-dots span:nth-child(2) { animation-delay: 0.18s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes typingPulse {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30%           { opacity: 1;   transform: translateY(-4px); }
+}
+
+/* ========================================
+   QUICK REPLIES
+   ======================================== */
+.quick-reply-chip {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-full);
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-sub);
+  transition: border-color var(--t), background var(--t), color var(--t);
+  white-space: nowrap;
+}
+
+.quick-reply-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* ========================================
+   INPUT STATE
+   ======================================== */
+#chat-input:disabled { opacity: 0.5; cursor: not-allowed; }

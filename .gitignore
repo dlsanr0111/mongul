@@ -1,0 +1,7 @@
+# API 키가 포함된 파일은 절대 커밋하지 마세요
+# config.js의 API_KEY는 빈 문자열 상태로 유지
+
+.DS_Store
+Thumbs.db
+*.log
+__pycache__/
