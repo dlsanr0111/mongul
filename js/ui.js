@@ -31,8 +31,12 @@ export function updateStageDots(currentStage) {
   });
 
   const stageInfo = CONFIG.STAGES[currentStage - 1];
+  const total = CONFIG.STAGES.length;
   const status = document.getElementById('header-status');
   if (status && stageInfo) status.textContent = stageInfo.name;
+
+  const tag = document.getElementById('header-survey-tag');
+  if (tag) tag.textContent = `${CONFIG.SURVEY_TITLE} · ${currentStage}/${total}단계`;
 }
 
 // ==================== STAGE TRANSITION OVERLAY ====================
@@ -42,8 +46,9 @@ export function showStageTransition(stageNum) {
     const stageInfo = CONFIG.STAGES[stageNum - 1];
     if (!stageInfo) { resolve(); return; }
 
+    const total = CONFIG.STAGES.length;
     const overlay = document.getElementById('stage-overlay');
-    document.getElementById('stage-overlay-icon').textContent = stageInfo.icon;
+    document.getElementById('stage-overlay-icon').textContent = `${stageNum}/${total}단계`;
     document.getElementById('stage-overlay-name').textContent = stageInfo.name;
     document.getElementById('stage-overlay-desc').textContent = stageInfo.desc;
 

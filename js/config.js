@@ -1,13 +1,12 @@
 export const CONFIG = {
-  // ──────────────────────────────────────────────
-  // 운영자 설정: 아래에 API 키를 입력하세요
-  API_KEY: '',
-  // ──────────────────────────────────────────────
-
-  MODEL: 'claude-sonnet-4-5',
+  MODEL: 'gemini-2.5-flash',
   MAX_TOKENS: 600,
-  API_URL: 'https://api.anthropic.com/v1/messages',
   MASCOT_NAME: '몽글이',
+
+  SURVEY_TITLE: '청소년 진로 적성 검사',
+  SURVEY_VERSION: 'v1.0 (2026)',
+  SURVEY_SUBJECT: '중·고등학생',
+  SURVEY_DURATION: '약 15~20분',
 
   STAGES: [
     { num: 1, name: '관심사 탐색',  icon: '🌿', desc: '좋아하는 것들을 이야기해봐' },

@@ -1,15 +1,15 @@
 :root {
   /* ── Core Palette ─────────────────────────── */
-  --primary:        #6C63FF;
-  --primary-hover:  #5A52E0;
-  --primary-light:  #F0EFFE;
-  --primary-muted:  rgba(108,99,255,0.12);
+  --primary:        #1E5BAA;
+  --primary-hover:  #164785;
+  --primary-light:  #EEF3FB;
+  --primary-muted:  rgba(30,91,170,0.10);
 
-  --bg:             #FAFAFA;
+  --bg:             #F4F5F7;
   --surface:        #FFFFFF;
-  --surface-2:      #F5F5F7;
-  --border:         #EBEBF0;
-  --border-light:   #F2F2F5;
+  --surface-2:      #EEF1F4;
+  --border:         #D8DCE2;
+  --border-light:   #E6E9EE;
 
   --text:           #1C1C1E;
   --text-sub:       #48484A;
@@ -38,10 +38,10 @@
   --sp-xl:   40px;
 
   /* ── Radius ──────────────────────────────── */
-  --r-sm:    6px;
-  --r-md:    12px;
-  --r-lg:    20px;
-  --r-full:  9999px;
+  --r-sm:    4px;
+  --r-md:    8px;
+  --r-lg:    10px;
+  --r-full:  8px;
 
   /* ── Shadow ──────────────────────────────── */
   --shadow-xs: 0 1px 3px rgba(0,0,0,0.06);
@@ -50,8 +50,8 @@
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
 
   /* ── Transition ──────────────────────────── */
-  --t:      0.2s ease;
-  --t-slow: 0.38s ease;
+  --t:      0.12s ease;
+  --t-slow: 0.25s ease;
 }
 
 /* ── Base ──────────────────────────────────── */

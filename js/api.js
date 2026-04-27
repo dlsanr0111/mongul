@@ -1,34 +1,35 @@
 import { CONFIG } from './config.js';
 
+const PROXY_URL = '/api/chat';
+
 /**
- * Stream Claude API response.
+ * Stream chat response via the server-side proxy (which forwards to Gemini).
  *
  * @param {object} opts
  * @param {string}   opts.systemPrompt
- * @param {Array}    opts.messages        - Anthropic message format [{role, content}]
+ * @param {Array}    opts.messages        - [{role: 'user'|'assistant', content: string}]
  * @param {Function} opts.onUpdate        - called with full cleaned text each chunk
  * @param {Function} opts.onComplete      - called with { scores, stageComplete, finalScores, choices }
  */
-export async function streamClaude({ systemPrompt, messages, onUpdate, onComplete }) {
-  if (!CONFIG.API_KEY) {
-    throw new Error('config.js 에 API 키를 설정해주세요.');
-  }
-
-  const response = await fetch(CONFIG.API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': CONFIG.API_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
+export async function streamGemini({ systemPrompt, messages, onUpdate, onComplete }) {
+  const body = {
+    model: CONFIG.MODEL,
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents: messages.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    })),
+    generationConfig: {
+      maxOutputTokens: CONFIG.MAX_TOKENS,
+      temperature: 1.0,
+      thinkingConfig: { thinkingBudget: 0 },
     },
-    body: JSON.stringify({
-      model: CONFIG.MODEL,
-      max_tokens: CONFIG.MAX_TOKENS,
-      system: systemPrompt,
-      messages,
-      stream: true,
-    }),
+  };
+
+  const response = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -57,16 +58,20 @@ export async function streamClaude({ systemPrompt, messages, onUpdate, onComplet
       for (const line of lines) {
         if (!line.startsWith('data: ')) continue;
         const payload = line.slice(6).trim();
-        if (payload === '[DONE]') continue;
+        if (!payload || payload === '[DONE]') continue;
 
         let parsed;
         try { parsed = JSON.parse(payload); } catch { continue; }
 
-        if (
-          parsed.type === 'content_block_delta' &&
-          parsed.delta?.type === 'text_delta'
-        ) {
-          rawText += parsed.delta.text;
+        const parts = parsed.candidates?.[0]?.content?.parts;
+        if (!Array.isArray(parts)) continue;
+
+        let chunkText = '';
+        for (const part of parts) {
+          if (typeof part.text === 'string') chunkText += part.text;
+        }
+        if (chunkText) {
+          rawText += chunkText;
           onUpdate?.(stripForDisplay(rawText));
         }
       }

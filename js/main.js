@@ -1,5 +1,5 @@
 import { ConversationState } from './state.js';
-import { streamClaude } from './api.js';
+import { streamGemini } from './api.js';
 import { renderRadarChart } from './chart.js';
 import { recommendJobs } from './jobs.js';
 import { getSystemPrompt } from './stages.js';
@@ -66,7 +66,7 @@ async function sendAIMessage({ jobName = '' } = {}) {
     const systemPrompt = getSystemPrompt(state.stage, jobName || state.activeSimJob?.simPrompt || '');
     const messages     = state.getApiMessages();
 
-    await streamClaude({
+    await streamGemini({
       systemPrompt,
       messages,
       onUpdate: text => {
