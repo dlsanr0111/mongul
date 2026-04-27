@@ -1,5 +1,5 @@
 export const CONFIG = {
-  MODEL: 'gemini-2.5-flash',
+  MODEL: 'gemini-2.5-flash-lite',
   MAX_TOKENS: 600,
   MASCOT_NAME: '몽글이',
 
