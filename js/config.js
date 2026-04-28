@@ -1,5 +1,8 @@
 export const CONFIG = {
-  MODEL: 'gemini-2.5-flash-lite',
+  // API 키는 Vercel 서버리스 함수(api/chat.js)에서만 사용됩니다.
+  // 브라우저는 /api/chat 프록시를 호출하므로 키를 다루지 않습니다.
+
+  MODEL: 'gemini-2.5-flash',
   MAX_TOKENS: 600,
   MASCOT_NAME: '몽글이',
 

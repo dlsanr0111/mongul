@@ -19,7 +19,7 @@ export default async function handler(req) {
     return jsonError(400, '잘못된 요청 본문입니다.');
   }
 
-  const model = body.model || 'gemini-2.5-flash-lite';
+  const model = body.model || 'gemini-2.5-flash';
   const upstreamUrl = `${GEMINI_BASE}/${encodeURIComponent(model)}:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`;
 
   const upstream = await fetch(upstreamUrl, {
