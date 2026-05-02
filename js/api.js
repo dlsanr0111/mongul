@@ -9,7 +9,7 @@ import { CONFIG } from './config.js';
  * @param {Function} opts.onUpdate        - called with cleaned text each chunk
  * @param {Function} opts.onComplete      - called with { scores, stageComplete, finalScores, choices }
  */
-export async function streamClaude({ systemPrompt, messages, onUpdate, onComplete }) {
+export async function streamGemini({ systemPrompt, messages, onUpdate, onComplete }) {
   const response = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
