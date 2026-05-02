@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>청소년 진로 적성 검사 (2026) · 몽글이와 함께</title>
+  <title>몽글이와 진로 이야기</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/themes.css">
@@ -26,22 +26,16 @@
   <!-- ===== LANDING VIEW ===== -->
   <div id="view-landing">
     <div class="landing-inner">
-      <img src="character.png" alt="몽글이" class="landing-character">
-      <div class="landing-text">
-        <h1 class="landing-title">청소년 진로 적성 검사<small>몽글이와 함께</small></h1>
-        <p class="landing-subtitle">몇 가지 이야기를 나누면<br>너의 강점과 어울리는 직업을 찾아줄게</p>
+      <div class="character-wrap">
+        <div class="speech-bubble">안녕! 오늘 어떤 이야기 해볼까?</div>
+        <img src="character.png" alt="몽글이" class="landing-character">
       </div>
-
-      <dl class="landing-survey-meta">
-        <div class="meta-title">검사 안내</div>
-        <div class="meta-row"><dt>검사명</dt><dd>청소년 진로 적성 검사</dd></div>
-        <div class="meta-row"><dt>대상</dt><dd>중·고등학생</dd></div>
-        <div class="meta-row"><dt>소요 시간</dt><dd>약 15~20분</dd></div>
-        <div class="meta-row"><dt>응답 방법</dt><dd>몽글이의 질문에 자유롭게 답변</dd></div>
-      </dl>
-
-      <button id="btn-start" class="btn-start">검사 시작하기</button>
-      <p class="landing-hint">검사 결과는 진로 탐색 참고용입니다</p>
+      <div class="landing-text">
+        <h1 class="landing-title">몽글이와 함께하는<small>진로 이야기</small></h1>
+        <p class="landing-subtitle">몇 가지 이야기를 나누면<br>너랑 잘 맞는 일을 같이 찾아볼게</p>
+      </div>
+      <p class="landing-time">3~5분 정도 편하게 이야기해요</p>
+      <button id="btn-start" class="btn-start">몽글이 만나기</button>
     </div>
   </div>
 
@@ -58,7 +52,7 @@
           <div class="header-info">
             <div class="header-name">몽글이</div>
             <div class="header-status" id="header-status">관심사 탐색</div>
-            <div class="header-survey-tag" id="header-survey-tag">진로 적성 검사 · 1/5단계</div>
+            <div class="header-survey-tag" id="header-survey-tag">이야기 중 · 1/5</div>
           </div>
         </div>
         <div class="stage-progress">
@@ -68,7 +62,7 @@
           <div class="stage-connector"></div>
           <div class="stage-dot" data-stage="3" title="진로 탐색"></div>
           <div class="stage-connector"></div>
-          <div class="stage-dot" data-stage="4" title="결과 분석"></div>
+          <div class="stage-dot" data-stage="4" title="강점 살펴보기"></div>
           <div class="stage-connector"></div>
           <div class="stage-dot" data-stage="5" title="직업 체험"></div>
         </div>
@@ -111,7 +105,7 @@
     <div id="sidebar">
 
       <div id="sidebar-header">
-        <h3 id="sidebar-title">결과 분석</h3>
+        <h3 id="sidebar-title">강점 살펴보기</h3>
       </div>
 
       <div id="radar-container">
@@ -136,7 +130,7 @@
   </div>
 
   <footer class="app-footer">
-    © 2026 청소년 진로 적성 검사 도구 · v1.0 · 본 검사는 진로 탐색 참고용으로 활용해 주세요.
+    © 2026 몽글이와 진로 이야기 · v1.0 · 진로 탐색 참고용으로 활용해 주세요.
   </footer>
 
   <script type="module" src="js/main.js"></script>

@@ -36,7 +36,7 @@ export function updateStageDots(currentStage) {
   if (status && stageInfo) status.textContent = stageInfo.name;
 
   const tag = document.getElementById('header-survey-tag');
-  if (tag) tag.textContent = `${CONFIG.SURVEY_TITLE} · ${currentStage}/${total}단계`;
+  if (tag) tag.textContent = `이야기 중 · ${currentStage}/${total}`;
 }
 
 // ==================== STAGE TRANSITION OVERLAY ====================
