@@ -63,12 +63,16 @@ async function sendAIMessage({ jobName = '' } = {}) {
   let typingHidden = false;
 
   try {
-    const systemPrompt = getSystemPrompt(state.stage, jobName || state.activeSimJob?.simPrompt || '');
+    const activeJobName = jobName || state.activeSimJob?.simPrompt || '';
+    const systemPrompt = getSystemPrompt(state.stage, activeJobName);
     const messages     = state.getApiMessages();
 
     await streamGemini({
       systemPrompt,
       messages,
+      stage: state.stage,
+      exchangeIndex: state.stageExchanges[state.stage],
+      jobName: activeJobName,
       onUpdate: text => {
         if (state.stage === 5) {
           if (!typingHidden) {

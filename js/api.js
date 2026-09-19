@@ -1,4 +1,5 @@
 import { CONFIG } from './config.js';
+import { getMockResponse } from './mock-data.js';
 
 /**
  * Stream Gemini response via our /api/chat proxy.
@@ -6,10 +7,17 @@ import { CONFIG } from './config.js';
  * @param {object} opts
  * @param {string}   opts.systemPrompt
  * @param {Array}    opts.messages        - [{role: 'user'|'assistant', content}]
+ * @param {number}   [opts.stage]         - current stage number, used only in MOCK_MODE
+ * @param {number}   [opts.exchangeIndex] - 1-based turn count in the stage, used only in MOCK_MODE
+ * @param {string}   [opts.jobName]       - used only in MOCK_MODE for stage 5
  * @param {Function} opts.onUpdate        - called with cleaned text each chunk
  * @param {Function} opts.onComplete      - called with { scores, stageComplete, finalScores, choices }
  */
-export async function streamGemini({ systemPrompt, messages, onUpdate, onComplete }) {
+export async function streamGemini({ systemPrompt, messages, stage, exchangeIndex, jobName, onUpdate, onComplete }) {
+  if (CONFIG.MOCK_MODE) {
+    return mockStreamGemini({ stage, exchangeIndex, jobName, onUpdate, onComplete });
+  }
+
   const response = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -75,6 +83,30 @@ export async function streamGemini({ systemPrompt, messages, onUpdate, onComplet
   const result = parseSpecialTags(rawText);
   onComplete?.(result);
   return result;
+}
+
+/**
+ * Fakes the real streamGemini's chunked onUpdate/onComplete behavior using
+ * canned text from mock-data.js, so no network call or API token is used.
+ */
+async function mockStreamGemini({ stage, exchangeIndex, jobName, onUpdate, onComplete }) {
+  const rawFull = getMockResponse({ stage, exchangeIndex, jobName });
+
+  let rawText = '';
+  const chunkSize = 3;
+  for (let i = 0; i < rawFull.length; i += chunkSize) {
+    rawText += rawFull.slice(i, i + chunkSize);
+    onUpdate?.(stripForDisplay(rawText));
+    await delay(20);
+  }
+
+  const result = parseSpecialTags(rawText);
+  onComplete?.(result);
+  return result;
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function stripForDisplay(text) {

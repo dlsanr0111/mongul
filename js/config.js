@@ -6,6 +6,10 @@ export const CONFIG = {
   MAX_TOKENS: 600,
   MASCOT_NAME: '몽글이',
 
+  // true면 /api/chat을 호출하지 않고 js/mock-data.js의 예시 대화로 전체 흐름을 시연합니다.
+  // (API 토큰 소모 없이 로컬 데모용) 실제 API를 쓰려면 false로 바꾸세요.
+  MOCK_MODE: false,
+
   SURVEY_TITLE: '청소년 진로 적성 검사',
   SURVEY_VERSION: 'v1.0 (2026)',
   SURVEY_SUBJECT: '중·고등학생',
