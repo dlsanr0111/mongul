@@ -188,35 +188,62 @@ export function renderCompetencySummary(scores) {
 
 // ==================== JOB CARDS ====================
 
+const JOBS_INITIAL_COUNT = 6;
+const JOBS_PER_MORE = 6;
+
+function createJobCard(job, onSelect) {
+  const card = document.createElement('div');
+  card.className = 'job-card';
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.innerHTML = `
+    <div class="job-card-header">
+      <span class="job-emoji">${job.emoji}</span>
+      <span class="job-name">${job.name}</span>
+      <span class="job-match">${job.matchScore}점</span>
+    </div>
+    <div class="job-badges">
+      ${job.rare ? '<span class="job-badge job-badge-rare">✨ 몰랐던 직업</span>' : ''}
+      <span class="job-badge">${job.categoryLabel}</span>
+    </div>
+    <p class="job-desc">${job.desc}</p>
+    <div class="job-tags">
+      ${job.tags.map(t => {
+        const c = COMPETENCIES[t];
+        return `<span class="job-tag" style="background:${getTagColor(t)}">${c?.icon || ''} ${c?.label || t}</span>`;
+      }).join('')}
+    </div>
+    <span class="job-card-btn">체험해보기</span>
+  `;
+
+  card.addEventListener('click', () => onSelect(job));
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onSelect(job);
+    }
+  });
+  return card;
+}
+
 export function renderJobCards(jobs, onSelect) {
   const container = document.getElementById('job-cards');
+  const moreWrap = document.getElementById('job-more-wrap');
+  const moreBtn = document.getElementById('btn-more-jobs');
   container.innerHTML = '';
 
-  jobs.forEach(job => {
-    const card = document.createElement('div');
-    card.className = 'job-card';
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.innerHTML = `
-      <div class="job-card-header">
-        <span class="job-emoji">${job.emoji}</span>
-        <span class="job-name">${job.name}</span>
-        <span class="job-match">${job.matchScore}점</span>
-      </div>
-      <p class="job-desc">${job.desc}</p>
-      <div class="job-tags">
-        ${job.tags.map(t => {
-          const c = COMPETENCIES[t];
-          return `<span class="job-tag" style="background:${getTagColor(t)}">${c?.icon || ''} ${c?.label || t}</span>`;
-        }).join('')}
-      </div>
-      <span class="job-card-btn">체험해보기</span>
-    `;
+  let shown = 0;
+  const showNext = count => {
+    jobs.slice(shown, shown + count).forEach(job => container.appendChild(createJobCard(job, onSelect)));
+    shown = Math.min(shown + count, jobs.length);
 
-    card.addEventListener('click', () => onSelect(job));
-    card.addEventListener('keydown', e => { if (e.key === 'Enter') onSelect(job); });
-    container.appendChild(card);
-  });
+    const remaining = jobs.length - shown;
+    moreWrap.classList.toggle('hidden', remaining <= 0);
+    moreBtn.textContent = `더 보기 (${remaining}개)`;
+  };
+
+  moreBtn.onclick = () => showNext(JOBS_PER_MORE);
+  showNext(JOBS_INITIAL_COUNT);
 
   document.getElementById('job-section').classList.remove('hidden');
 }

@@ -117,6 +117,18 @@
       <div id="job-section" class="hidden">
         <p class="section-label">추천 직업</p>
         <div id="job-cards"></div>
+        <div id="job-more-wrap" class="hidden">
+          <button id="btn-more-jobs" type="button">더 보기</button>
+        </div>
+
+        <form id="custom-job-form" autocomplete="off">
+          <p class="section-label">찾는 직업이 없어?</p>
+          <p class="custom-job-hint">궁금한 직업 이름을 알려주면 몽글이가 하루를 체험시켜줄게!</p>
+          <div class="custom-job-row">
+            <input id="custom-job-input" type="text" maxlength="30" placeholder="예: 향료 조향사" aria-label="체험하고 싶은 직업 이름">
+            <button id="btn-custom-job" type="submit">체험하기</button>
+          </div>
+        </form>
       </div>
 
       <div id="simulation-panel" class="hidden">

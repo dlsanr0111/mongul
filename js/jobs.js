@@ -1,131 +1,122 @@
 import { COMPETENCIES } from './competencies.js';
+import { JOB_CATEGORIES } from './jobs/index.js';
 
-export const JOB_CATALOG = [
-  {
-    id: 'data_analyst',
-    name: '데이터 분석가',
-    emoji: '📊',
-    desc: '숫자와 데이터 속에서 의미있는 이야기를 찾아내는 탐정이야.',
-    weights: { 비판적사고: 0.40, 디지털리터러시: 0.40, 진로개발: 0.20 },
-    tags: ['비판적사고', '디지털리터러시'],
-    simPrompt: '데이터 분석가',
-  },
-  {
-    id: 'developer',
-    name: '소프트웨어 개발자',
-    emoji: '💻',
-    desc: '아이디어를 코드로 현실로 만들어내는 현대의 마법사야.',
-    weights: { 디지털리터러시: 0.45, 비판적사고: 0.30, 창의력: 0.25 },
-    tags: ['디지털리터러시', '창의력'],
-    simPrompt: '소프트웨어 개발자',
-  },
-  {
-    id: 'counselor',
-    name: '상담사',
-    emoji: '💙',
-    desc: '사람들의 마음을 이해하고 함께 해결책을 찾아주는 사람이야.',
-    weights: { 사회정서: 0.45, 의사소통: 0.40, 협업: 0.15 },
-    tags: ['사회정서', '의사소통'],
-    simPrompt: '심리 상담사',
-  },
-  {
-    id: 'teacher',
-    name: '교사',
-    emoji: '📚',
-    desc: '지식을 전달하는 것을 넘어, 학생의 성장을 함께하는 안내자야.',
-    weights: { 의사소통: 0.35, 사회정서: 0.35, 진로개발: 0.30 },
-    tags: ['의사소통', '사회정서'],
-    simPrompt: '중학교 교사',
-  },
-  {
-    id: 'marketer',
-    name: '마케터',
-    emoji: '📣',
-    desc: '사람들의 마음을 움직이는 이야기와 전략을 만드는 사람이야.',
-    weights: { 의사소통: 0.35, 창의력: 0.35, 디지털리터러시: 0.30 },
-    tags: ['의사소통', '창의력'],
-    simPrompt: '디지털 마케터',
-  },
-  {
-    id: 'designer',
-    name: '디자이너',
-    emoji: '🎨',
-    desc: '아름다움과 기능성을 조화롭게 만들어내는 시각적 이야기꾼이야.',
-    weights: { 창의력: 0.45, 디지털리터러시: 0.35, 의사소통: 0.20 },
-    tags: ['창의력', '디지털리터러시'],
-    simPrompt: 'UI/UX 디자이너',
-  },
-  {
-    id: 'content_creator',
-    name: '콘텐츠 크리에이터',
-    emoji: '🎬',
-    desc: '자신만의 세계관으로 사람들을 즐겁게 하고 영감을 주는 사람이야.',
-    weights: { 창의력: 0.40, 디지털리터러시: 0.35, 사회정서: 0.25 },
-    tags: ['창의력', '디지털리터러시'],
-    simPrompt: '유튜브 크리에이터',
-  },
-  {
-    id: 'social_worker',
-    name: '사회복지사',
-    emoji: '🌱',
-    desc: '도움이 필요한 사람들 곁에서 함께하고 세상을 더 따뜻하게 만드는 사람이야.',
-    weights: { 사회정서: 0.40, 협업: 0.40, 의사소통: 0.20 },
-    tags: ['사회정서', '협업'],
-    simPrompt: '사회복지사',
-  },
-  {
-    id: 'project_manager',
-    name: '프로젝트 기획자',
-    emoji: '📋',
-    desc: '여러 사람의 힘을 모아 큰 목표를 이뤄내는 오케스트라 지휘자야.',
-    weights: { 협업: 0.40, 의사소통: 0.30, 진로개발: 0.30 },
-    tags: ['협업', '진로개발'],
-    simPrompt: '프로젝트 매니저',
-  },
-  {
-    id: 'entrepreneur',
-    name: '창업가',
-    emoji: '🚀',
-    desc: '세상에 없던 것을 만들어내고 새로운 길을 여는 도전자야.',
-    weights: { 진로개발: 0.40, 창의력: 0.35, 비판적사고: 0.25 },
-    tags: ['진로개발', '창의력'],
-    simPrompt: '스타트업 창업가',
-  },
-  {
-    id: 'strategist',
-    name: '전략기획자',
-    emoji: '♟️',
-    desc: '큰 그림을 그리고 조직이 나아갈 방향을 설계하는 나침반이야.',
-    weights: { 진로개발: 0.40, 비판적사고: 0.35, 협업: 0.25 },
-    tags: ['진로개발', '비판적사고'],
-    simPrompt: '기업 전략기획자',
-  },
-  {
-    id: 'researcher',
-    name: '연구원',
-    emoji: '🔬',
-    desc: '아무도 몰랐던 진실을 파헤치고 세상을 이해하는 데 기여하는 탐험가야.',
-    weights: { 비판적사고: 0.45, 디지털리터러시: 0.30, 진로개발: 0.25 },
-    tags: ['비판적사고', '진로개발'],
-    simPrompt: '과학 연구원',
-  },
-];
+const TILT = 0.2;
+const MAX_PER_CATEGORY = 2;
+const MIN_RARE_IN_FIRST_GROUP = 2;
+
+function hashCode(str) {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+// 직업군 기본 프로필에 직업별 미세 변동(0.85~1.15배)과 강조 역량(+0.2)을 얹고 합이 1이 되도록 정규화
+function buildWeights(base, tilts, seed) {
+  const w = {};
+  for (const [key, value] of Object.entries(base)) {
+    w[key] = value * (0.85 + (hashCode(seed + key) % 31) / 100);
+  }
+  for (const key of tilts) w[key] = (w[key] || 0) + TILT;
+
+  const sum = Object.values(w).reduce((a, b) => a + b, 0);
+  for (const key of Object.keys(w)) w[key] /= sum;
+  return w;
+}
+
+function expandJob(category, [name, emoji, desc, flags = '']) {
+  const tokens = flags.split(/\s+/).filter(Boolean);
+  const rare = tokens.includes('r');
+  const tilts = tokens.filter(t => COMPETENCIES[t]);
+  const weights = buildWeights(category.base, tilts, `${category.id}:${name}`);
+  const tags = Object.entries(weights)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([key]) => key);
+
+  return {
+    id: `${category.id}:${name}`,
+    name,
+    emoji,
+    desc,
+    weights,
+    tags,
+    simPrompt: name,
+    category: category.id,
+    categoryLabel: category.label,
+    rare,
+  };
+}
+
+export const JOB_CATALOG = JOB_CATEGORIES.flatMap(category =>
+  category.jobs.map(job => expandJob(category, job))
+);
+
+function pickGroup(sorted, size, minRare, used, categoryCount) {
+  const group = [];
+  const canTake = job =>
+    !used.has(job.id) && (categoryCount[job.category] || 0) < MAX_PER_CATEGORY;
+  const take = job => {
+    group.push(job);
+    used.add(job.id);
+    categoryCount[job.category] = (categoryCount[job.category] || 0) + 1;
+  };
+
+  for (const job of sorted) {
+    if (group.length >= minRare) break;
+    if (job.rare && canTake(job)) take(job);
+  }
+  for (const job of sorted) {
+    if (group.length >= size) break;
+    if (canTake(job)) take(job);
+  }
+  return group.sort((a, b) => b.rawScore - a.rawScore);
+}
 
 /**
- * Returns top N jobs sorted by weighted competency score match.
+ * 역량 점수와 잘 맞는 직업 topN개를 반환.
+ * 한 직업군에서 최대 2개, 처음 6개 안에는 잘 알려지지 않은(rare) 직업이 2개 이상 포함됨.
  * @param {Object} scores - { 비판적사고: 72, ... }
  * @param {number} topN
  */
-export function recommendJobs(scores, topN = 3) {
+export function recommendJobs(scores, topN = 12) {
   const scored = JOB_CATALOG.map(job => {
-    const matchScore = Object.entries(job.weights).reduce((sum, [comp, w]) => {
-      return sum + (scores[comp] ?? 50) * w;
-    }, 0);
-    return { ...job, matchScore: Math.round(matchScore) };
+    const rawScore = Object.entries(job.weights).reduce(
+      (sum, [comp, w]) => sum + (scores[comp] ?? 50) * w,
+      0
+    );
+    return { ...job, rawScore, matchScore: Math.round(rawScore) };
   });
+  scored.sort((a, b) => b.rawScore - a.rawScore);
 
-  scored.sort((a, b) => b.matchScore - a.matchScore);
-  return scored.slice(0, topN);
+  const used = new Set();
+  const categoryCount = {};
+  const firstSize = Math.min(6, topN);
+  const first = pickGroup(scored, firstSize, MIN_RARE_IN_FIRST_GROUP, used, categoryCount);
+  const rest = topN > firstSize
+    ? pickGroup(scored, topN - firstSize, 0, used, categoryCount)
+    : [];
+  return [...first, ...rest];
+}
+
+/**
+ * 카탈로그에 없는 직업도 시뮬레이션할 수 있도록 사용자가 입력한 이름으로 직업 객체를 만든다.
+ */
+export function makeCustomJob(name) {
+  const trimmed = name.trim();
+  return {
+    id: `custom:${trimmed}`,
+    name: trimmed,
+    emoji: '🔎',
+    desc: '몽글이가 찾아서 하루를 체험시켜줄게!',
+    weights: {},
+    tags: [],
+    simPrompt: trimmed,
+    category: 'custom',
+    categoryLabel: '직접 찾은 직업',
+    rare: true,
+    matchScore: null,
+  };
 }
 
 /**

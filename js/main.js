@@ -1,7 +1,7 @@
 import { ConversationState } from './state.js';
 import { streamGemini } from './api.js';
 import { renderRadarChart } from './chart.js';
-import { recommendJobs, JOB_CATALOG } from './jobs.js';
+import { recommendJobs, makeCustomJob, JOB_CATALOG } from './jobs.js';
 import { getSystemPrompt } from './stages.js';
 import * as UI from './ui.js';
 
@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chat-input').addEventListener('input', autoResizeTextarea);
   document.getElementById('btn-back-jobs').addEventListener('click', () => {
     UI.hideSimulationPanel();
+  });
+  document.getElementById('custom-job-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const input = document.getElementById('custom-job-input');
+    const name = input.value.trim();
+    if (!name || state.isLoading) return;
+    input.value = '';
+    handleJobSelect(makeCustomJob(name));
   });
 });
 
@@ -194,7 +202,7 @@ async function handleStage4Result(finalScores) {
   UI.renderCompetencySummary(finalScores);
 
   await delay(1400);
-  const jobs = recommendJobs(finalScores, 3);
+  const jobs = recommendJobs(finalScores, 12);
   state.topJobs = jobs;
   UI.renderJobCards(jobs, handleJobSelect);
 }
@@ -206,6 +214,8 @@ async function handleJobSelect(job) {
   await UI.showStageTransition(5);
 
   state.advanceStage();
+  state.stageExchanges[5] = 0;
+  UI.hideQuickReplies();
   UI.updateStageDots(5);
 
   state.addMessage('user', `${job.name}으로 일하는 하루를 체험하고 싶어!`);

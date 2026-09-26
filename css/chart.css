@@ -116,6 +116,96 @@
   padding: 2px 9px;
 }
 
+.job-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.job-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--border-light);
+  border-radius: var(--r-full);
+  padding: 2px 8px;
+}
+
+.job-badge-rare {
+  color: #B7791F;
+  background: #FFF3D6;
+}
+
+#job-more-wrap {
+  margin-top: var(--sp-sm);
+}
+
+#btn-more-jobs {
+  width: 100%;
+  padding: 10px;
+  border: 1.5px dashed var(--border-light);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--t), color var(--t);
+}
+
+#btn-more-jobs:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+#custom-job-form {
+  margin-top: var(--sp-lg);
+  padding-top: var(--sp-md);
+  border-top: 1px solid var(--border-light);
+}
+
+.custom-job-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.custom-job-row {
+  display: flex;
+  gap: 6px;
+}
+
+#custom-job-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--r-md);
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+
+#custom-job-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+#btn-custom-job {
+  padding: 9px 14px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--primary);
+  color: white;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 .job-desc {
   font-size: 0.82rem;
   color: var(--text-muted);
