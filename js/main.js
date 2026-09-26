@@ -195,6 +195,8 @@ async function triggerStageTransition() {
 }
 
 async function handleStage4Result(finalScores) {
+  // 모바일은 결과가 전체 화면으로 넘어가므로 몽글이의 마지막 말을 읽을 시간을 준다
+  if (UI.isMobile()) await delay(2500);
   UI.openSidebar();
 
   await delay(300);

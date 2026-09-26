@@ -129,8 +129,20 @@ export function hideTypingIndicator() {
 
 // ==================== QUICK REPLIES ====================
 
+export function isMobile() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
+// 모바일에서는 직업 체험이 전체 화면이라 채팅창이 가려지므로 선택지를 체험 화면 안에 표시
+function getChoiceContainer() {
+  const simActive = !document.getElementById('simulation-panel').classList.contains('hidden');
+  return isMobile() && simActive
+    ? document.getElementById('sim-choices')
+    : document.getElementById('quick-replies');
+}
+
 export function showQuickReplies(options, onSelect) {
-  const container = document.getElementById('quick-replies');
+  const container = getChoiceContainer();
   container.innerHTML = '';
   container.classList.remove('hidden');
 
@@ -150,6 +162,7 @@ export function hideQuickReplies() {
   const container = document.getElementById('quick-replies');
   container.classList.add('hidden');
   container.innerHTML = '';
+  document.getElementById('sim-choices').innerHTML = '';
 }
 
 // ==================== INPUT CONTROL ====================
@@ -255,11 +268,19 @@ export function showSimulationPanel(job) {
   document.getElementById('simulation-panel').classList.remove('hidden');
   document.getElementById('simulation-job-title').textContent = `${job.emoji} ${job.name}`;
   document.getElementById('simulation-content').textContent = '';
+  document.getElementById('sim-choices').innerHTML = '';
+  document.getElementById('sidebar').classList.add('sim-mode');
+  document.getElementById('sidebar-title').textContent = '직업 체험';
+  document.getElementById('sidebar').scrollTop = 0;
 }
 
 export function hideSimulationPanel() {
   document.getElementById('simulation-panel').classList.add('hidden');
   document.getElementById('job-section').classList.remove('hidden');
+  document.getElementById('sim-choices').innerHTML = '';
+  document.getElementById('sidebar').classList.remove('sim-mode');
+  document.getElementById('sidebar-title').textContent = '내 강점과 어울리는 직업';
+  document.getElementById('sidebar').scrollTop = 0;
 }
 
 export function updateSimulationContent(text) {

@@ -154,6 +154,19 @@
   transition: border-color var(--t), color var(--t);
 }
 
+#sim-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  margin-top: var(--sp-md);
+}
+
+#sim-choices .quick-reply-chip {
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+}
+
 #btn-more-jobs:hover {
   border-color: var(--primary);
   color: var(--primary);

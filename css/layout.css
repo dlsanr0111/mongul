@@ -400,15 +400,13 @@
     grid-template-columns: 1fr !important;
   }
 
+  /* 결과(강점·직업)와 직업 체험은 채팅 위에 겹치지 않고 별도의 전체 화면으로 전환 */
   #sidebar {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 62vh;
-    border-top: 1px solid var(--border);
-    border-left: none;
-    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    inset: 0 0 28px 0;
+    height: auto;
+    border: none;
+    border-radius: 0;
     z-index: 100;
     transform: translateY(100%);
     transition: transform var(--t-slow), opacity var(--t-slow);
@@ -417,6 +415,17 @@
 
   #view-chat.sidebar-open #sidebar {
     transform: translateY(0);
+  }
+
+  #sidebar-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  #sidebar.sim-mode #radar-container,
+  #sidebar.sim-mode #competency-summary {
+    display: none;
   }
 
   .landing-title { font-size: 1.5rem; }
