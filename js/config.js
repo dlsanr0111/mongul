@@ -3,7 +3,9 @@ export const CONFIG = {
   // 브라우저는 /api/chat 프록시를 호출하므로 키를 다루지 않습니다.
 
   MODEL: 'gemini-2.5-flash',
-  MAX_TOKENS: 600,
+  // 눈에 보이는 대답뿐 아니라 <score>/<final_scores>/<choice> 태그도 같은 예산을 씀.
+  // 600은 너무 작아서 답변이 중간에 끊기는 경우가 있어 여유있게 상향.
+  MAX_TOKENS: 1200,
   MASCOT_NAME: '몽글이',
 
   // true면 /api/chat을 호출하지 않고 js/mock-data.js의 예시 대화로 전체 흐름을 시연합니다.

@@ -11,7 +11,7 @@ import { getMockResponse } from './mock-data.js';
  * @param {number}   [opts.exchangeIndex] - 1-based turn count in the stage, used only in MOCK_MODE
  * @param {string}   [opts.jobName]       - used only in MOCK_MODE for stage 5
  * @param {Function} opts.onUpdate        - called with cleaned text each chunk
- * @param {Function} opts.onComplete      - called with { scores, stageComplete, finalScores, choices }
+ * @param {Function} opts.onComplete      - called with { scores, stageComplete, finalScores, choices, truncated }
  */
 export async function streamGemini({ systemPrompt, messages, stage, exchangeIndex, jobName, onUpdate, onComplete }) {
   if (CONFIG.MOCK_MODE) {
@@ -47,6 +47,7 @@ export async function streamGemini({ systemPrompt, messages, stage, exchangeInde
   const decoder = new TextDecoder();
   let sseBuffer = '';
   let rawText = '';
+  let finishReason = null;
 
   try {
     while (true) {
@@ -65,7 +66,10 @@ export async function streamGemini({ systemPrompt, messages, stage, exchangeInde
         let parsed;
         try { parsed = JSON.parse(payload); } catch { continue; }
 
-        const parts = parsed?.candidates?.[0]?.content?.parts;
+        const candidate = parsed?.candidates?.[0];
+        if (candidate?.finishReason) finishReason = candidate.finishReason;
+
+        const parts = candidate?.content?.parts;
         if (!Array.isArray(parts)) continue;
 
         for (const p of parts) {
@@ -81,6 +85,7 @@ export async function streamGemini({ systemPrompt, messages, stage, exchangeInde
   }
 
   const result = parseSpecialTags(rawText);
+  result.truncated = finishReason === 'MAX_TOKENS';
   onComplete?.(result);
   return result;
 }
@@ -115,6 +120,10 @@ function stripForDisplay(text) {
     .replace(/<stage_complete\/>/g, '')
     .replace(/<final_scores>[\s\S]*?<\/final_scores>/g, '')
     .replace(/<choice[^>]*?>[\s\S]*?<\/choice>/g, '')
+    // final_scores/choice opening tag has streamed in but its closing tag hasn't yet —
+    // hide the raw JSON/choice text instead of flashing it on screen mid-stream.
+    .replace(/<(?:final_scores|choice)[^>]*>[\s\S]*$/, '')
+    // Truly unclosed opening tag (no ">" reached yet).
     .replace(/<(?:score|stage_complete|final_scores|choice)[^>]*$/, '')
     .trim();
 }

@@ -89,12 +89,16 @@ async function sendAIMessage({ jobName = '' } = {}) {
           UI.updateMessageContent(botRowEl, text);
         }
       },
-      onComplete: async ({ scores, stageComplete, finalScores, choices }) => {
+      onComplete: async ({ scores, stageComplete, finalScores, choices, truncated }) => {
         // Save AI response text to state
         const responseText = state.stage === 5
           ? UI.getSimulationText()
           : UI.getLastBotMessageText();
         if (responseText) state.addMessage('assistant', responseText);
+
+        if (truncated) {
+          UI.appendErrorMessage('답변이 길어져서 일부가 잘렸을 수 있어! 이상하면 다시 물어봐줘 🙏');
+        }
 
         // Apply competency score deltas
         for (const { competency, delta } of scores) {
