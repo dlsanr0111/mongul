@@ -30,7 +30,13 @@ export async function streamGemini({ systemPrompt, messages, stage, exchangeInde
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }],
       })),
-      generationConfig: { maxOutputTokens: CONFIG.MAX_TOKENS },
+      generationConfig: {
+        maxOutputTokens: CONFIG.MAX_TOKENS,
+        // gemini-2.5-flash는 기본적으로 내부 thinking에 maxOutputTokens 예산을
+        // 먼저 써버려서 실제 답변이 비거나 잘릴 수 있음 — 이 앱은 짧은 대화용
+        // 응답만 필요하므로 thinking을 꺼서 예산을 전부 답변에 쓰게 함.
+        thinkingConfig: { thinkingBudget: 0 },
+      },
     }),
   });
 
