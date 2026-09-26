@@ -178,6 +178,7 @@ export function setInputDisabled(disabled) {
 
 export function openSidebar() {
   document.getElementById('view-chat').classList.add('sidebar-open');
+  if (isMobile()) document.activeElement?.blur();
 }
 
 // ==================== COMPETENCY SUMMARY ====================

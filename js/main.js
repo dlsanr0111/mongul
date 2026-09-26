@@ -175,7 +175,9 @@ async function sendAIMessage({ jobName = '' } = {}) {
     state.isLoading = false;
     UI.hideTypingIndicator();
     UI.setInputDisabled(false);
-    document.getElementById('chat-input').focus();
+    // 모바일에서 결과·직업 체험 전체 화면이 채팅을 가리고 있을 땐 키보드가 뜨지 않도록 포커스하지 않음
+    const chatCovered = UI.isMobile() && document.getElementById('view-chat').classList.contains('sidebar-open');
+    if (!chatCovered) document.getElementById('chat-input').focus();
   }
 }
 
