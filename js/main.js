@@ -1,7 +1,7 @@
 import { ConversationState } from './state.js';
 import { streamGemini } from './api.js';
 import { renderRadarChart } from './chart.js';
-import { recommendJobs } from './jobs.js';
+import { recommendJobs, JOB_CATALOG } from './jobs.js';
 import { getSystemPrompt } from './stages.js';
 import * as UI from './ui.js';
 
@@ -45,9 +45,37 @@ async function handleSend() {
   autoResizeTextarea({ target: inputEl });
   UI.hideQuickReplies();
 
+  const stageJump = /^\/stage\s*([1-5])$/i.exec(text);
+  if (stageJump) {
+    await jumpToStage(parseInt(stageJump[1], 10));
+    return;
+  }
+
   state.addMessage('user', text);
   UI.appendUserMessage(text);
 
+  await sendAIMessage();
+}
+
+// ==================== DEV: /stage N 명령으로 특정 단계로 바로 이동 ====================
+async function jumpToStage(targetStage) {
+  state.stage = targetStage;
+  state.stageExchanges[targetStage] = 0;
+  UI.updateStageDots(targetStage);
+
+  if (targetStage === 5) {
+    const job = state.activeSimJob || JOB_CATALOG[0];
+    state.activeSimJob = job;
+    UI.showSimulationPanel(job);
+    state.addMessage('user', `${job.name}으로 일하는 하루를 체험하고 싶어!`);
+    await sendAIMessage({ jobName: job.simPrompt });
+    return;
+  }
+
+  const kickoff = targetStage === 1 ? '안녕!'
+    : targetStage === 4 ? '분석해줘!'
+    : '다음 얘기로 넘어가보자!';
+  state.addMessage('user', kickoff);
   await sendAIMessage();
 }
 
