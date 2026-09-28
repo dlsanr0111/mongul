@@ -13,8 +13,9 @@ export const CONFIG = {
   MOCK_MODE: false,
 
   // true면 선생님이 발급한 1회용 코드를 입력해야 대화를 시작할 수 있음.
-  // 로컬에서 코드 기능 없이 테스트할 땐 false로 꺼도 됨.
-  REQUIRE_CODE: true,
+  // Upstash Redis 연결 전까지는 false로 둬서 기존 익명 흐름을 유지함.
+  // (Vercel Storage에서 Upstash Redis 연결 + 배포 후 true로 전환)
+  REQUIRE_CODE: false,
 
   SURVEY_TITLE: '청소년 진로 적성 검사',
   SURVEY_VERSION: 'v1.0 (2026)',
