@@ -16,6 +16,11 @@ export class ConversationState {
     this.isLoading = false;
     this.topJobs = [];
     this.activeSimJob = null;
+
+    // 선생님 코드로 입장했을 때만 채워짐 (js/code-gate.js)
+    this.accessCode = null;
+    this.studentToken = null;
+    this.exploredJobs = [];
   }
 
   addMessage(role, content) {

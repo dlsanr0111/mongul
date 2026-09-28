@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>몽글이 선생님 페이지</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/teacher.css">
+</head>
+<body>
+
+  <!-- ===== 로그인 / 회원가입 ===== -->
+  <div id="view-auth" class="auth-view">
+    <div class="auth-card">
+      <h1 class="auth-title">몽글이 선생님 페이지</h1>
+      <p class="auth-subtitle">학생용 코드를 발급하고 결과를 확인하세요</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-tab="login">로그인</button>
+        <button type="button" class="auth-tab" data-tab="signup">회원가입</button>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <input type="email" name="email" placeholder="이메일" required autocomplete="email">
+        <input type="password" name="password" placeholder="비밀번호" required autocomplete="current-password">
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">로그인</button>
+      </form>
+
+      <form id="signup-form" class="auth-form hidden">
+        <input type="text" name="name" placeholder="이름 (선택)" autocomplete="name">
+        <input type="email" name="email" placeholder="이메일" required autocomplete="email">
+        <input type="password" name="password" placeholder="비밀번호 (6자 이상)" required autocomplete="new-password">
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">회원가입</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== 대시보드 ===== -->
+  <div id="view-dashboard" class="dashboard-view hidden">
+    <header class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">몽글이 선생님 페이지</h1>
+        <p id="dashboard-teacher-email" class="dashboard-teacher-email"></p>
+      </div>
+      <button id="btn-logout" type="button" class="btn-logout">로그아웃</button>
+    </header>
+
+    <section class="issue-section">
+      <form id="issue-form" class="issue-form">
+        <input id="issue-label-input" type="text" maxlength="40" placeholder="학생 이름/구분 (선택, 예: 3반 12번)">
+        <button type="submit" class="btn-issue">새 코드 발급</button>
+      </form>
+      <div id="issue-result" class="issue-result hidden"></div>
+    </section>
+
+    <section class="codes-section">
+      <div class="codes-header">
+        <h2>발급한 코드</h2>
+        <button id="btn-refresh" type="button" class="btn-refresh">새로고침</button>
+      </div>
+      <div id="codes-empty" class="codes-empty hidden">아직 발급한 코드가 없어요.</div>
+      <div id="codes-table-wrap" class="codes-table-wrap">
+        <table id="codes-table" class="codes-table">
+          <thead>
+            <tr>
+              <th>코드</th>
+              <th>학생</th>
+              <th>상태</th>
+              <th>강점 결과</th>
+              <th>체험한 직업</th>
+            </tr>
+          </thead>
+          <tbody id="codes-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="js/teacher.js"></script>
+</body>
+</html>

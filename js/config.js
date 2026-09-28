@@ -12,6 +12,10 @@ export const CONFIG = {
   // (API 토큰 소모 없이 로컬 데모용) 실제 API를 쓰려면 false로 바꾸세요.
   MOCK_MODE: false,
 
+  // true면 선생님이 발급한 1회용 코드를 입력해야 대화를 시작할 수 있음.
+  // 로컬에서 코드 기능 없이 테스트할 땐 false로 꺼도 됨.
+  REQUIRE_CODE: true,
+
   SURVEY_TITLE: '청소년 진로 적성 검사',
   SURVEY_VERSION: 'v1.0 (2026)',
   SURVEY_SUBJECT: '중·고등학생',

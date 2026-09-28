@@ -23,8 +23,28 @@
     </div>
   </div>
 
+  <!-- ===== CODE GATE VIEW ===== -->
+  <div id="view-code-gate" class="hidden">
+    <div class="landing-inner">
+      <div class="character-wrap">
+        <div class="speech-bubble">선생님께 받은 코드를 알려줘!</div>
+        <img src="character.png" alt="몽글이" class="landing-character">
+      </div>
+      <div class="landing-text">
+        <h1 class="landing-title">몽글이와 함께하는<small>진로 이야기</small></h1>
+        <p class="landing-subtitle">선생님께 받은 코드를 입력하면<br>바로 시작할 수 있어</p>
+      </div>
+      <form id="code-gate-form" class="code-gate-form" autocomplete="off">
+        <input id="code-gate-input" class="code-gate-input" type="text" maxlength="9"
+          placeholder="예: 7K3F-Q9M2" aria-label="선생님께 받은 코드">
+        <p id="code-gate-error" class="code-gate-error hidden"></p>
+        <button type="submit" class="btn-start">코드 확인하고 시작하기</button>
+      </form>
+    </div>
+  </div>
+
   <!-- ===== LANDING VIEW ===== -->
-  <div id="view-landing">
+  <div id="view-landing" class="hidden">
     <div class="landing-inner">
       <div class="character-wrap">
         <div class="speech-bubble">안녕! 오늘 어떤 이야기 해볼까?</div>

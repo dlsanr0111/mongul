@@ -3,6 +3,8 @@ import { streamGemini } from './api.js';
 import { renderRadarChart } from './chart.js';
 import { recommendJobs, makeCustomJob, JOB_CATALOG } from './jobs.js';
 import { getSystemPrompt } from './stages.js';
+import { CONFIG } from './config.js';
+import { initCodeGate, getVerifiedAccess, submitResult } from './code-gate.js';
 import * as UI from './ui.js';
 
 // ==================== APP STATE ====================
@@ -30,7 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
     input.value = '';
     handleJobSelect(makeCustomJob(name));
   });
+
+  initEntryView();
 });
+
+// ==================== ENTRY: 코드 게이트 vs 랜딩 ====================
+function initEntryView() {
+  const alreadyVerified = getVerifiedAccess();
+
+  if (!CONFIG.REQUIRE_CODE || alreadyVerified) {
+    if (alreadyVerified) {
+      state.accessCode = alreadyVerified.code;
+      state.studentToken = alreadyVerified.studentToken;
+    }
+    document.getElementById('view-code-gate').classList.add('hidden');
+    document.getElementById('view-landing').classList.remove('hidden');
+    return;
+  }
+
+  document.getElementById('view-code-gate').classList.remove('hidden');
+  initCodeGate({
+    onUnlocked: (code, studentToken) => {
+      state.accessCode = code;
+      state.studentToken = studentToken;
+      document.getElementById('view-code-gate').classList.add('hidden');
+      document.getElementById('view-landing').classList.remove('hidden');
+    },
+  });
+}
 
 // ==================== START FLOW ====================
 async function startChat() {
@@ -209,10 +238,14 @@ async function handleStage4Result(finalScores) {
   const jobs = recommendJobs(finalScores, 12);
   state.topJobs = jobs;
   UI.renderJobCards(jobs, handleJobSelect);
+
+  if (state.accessCode) submitResult({ finalScores });
 }
 
 async function handleJobSelect(job) {
   state.activeSimJob = job;
+  state.exploredJobs.push(job.name);
+  if (state.accessCode) submitResult({ finalScores: state.finalScores, exploredJobs: state.exploredJobs });
 
   UI.showSimulationPanel(job);
   await UI.showStageTransition(5);

@@ -9,3 +9,4 @@ Thumbs.db
 *.log
 __pycache__/
 .vercel
+node_modules/

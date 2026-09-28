@@ -1,7 +1,8 @@
 /* ========================================
    LANDING
    ======================================== */
-#view-landing {
+#view-landing,
+#view-code-gate {
   position: fixed;
   inset: 0;
   display: flex;
@@ -12,9 +13,42 @@
   z-index: 10;
 }
 
-#view-landing.fade-out {
+#view-landing.fade-out,
+#view-code-gate.fade-out {
   opacity: 0;
   pointer-events: none;
+}
+
+.code-gate-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.code-gate-input {
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--surface);
+}
+
+.code-gate-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.code-gate-error {
+  font-size: 0.82rem;
+  color: #E74C3C;
+  margin: -4px 0 0;
 }
 
 .landing-inner {
